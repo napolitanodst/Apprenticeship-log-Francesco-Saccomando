@@ -16,7 +16,7 @@ model = tf.keras.models.Sequential(
     [
        tf.keras.layers.Flatten(input_shape=(28, 28),),
        tf.keras.layers.Rescaling(1./255),
-       tf.keras.layers.Dense(10, activation="sigmoid", name="primo_layer"),
+       tf.keras.layers.Dense(15, activation="sigmoid", name="primo_layer"),
        tf.keras.layers.Dense(10, activation="softmax", name="output_layer")
    ]
 )
@@ -46,7 +46,6 @@ loss, accuracy = model.evaluate(x_test, y_test)
 
 plott = np.array(history_pesi)
 plott_up = np.squeeze(plott)
-epo = 10
 #Plot dei pesi
 plt.figure()
 plt.plot(plott_up)
