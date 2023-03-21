@@ -1,3 +1,2 @@
-# Apprenticeship-log
-Python Biological CNN
+# Python Biological CNN
 Under Costruction
