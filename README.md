@@ -1,6 +1,6 @@
 # Apprenticeship Log
 ### Neural Networks
-In the [Neural Networks](https://github.com/napolitanodst/Apprenticeship-log/tree/Apprenticeship-Code/Neural%20Networks) directory are contained all the attempts to create a simple geological Convolutional Neural Network (CNN) wich classifies rock micrographies into 3 classes: Metamorphic, Sedimentary and Volcanic.
+In the [Neural Networks](https://github.com/napolitanodst/Apprenticeship-log/tree/Apprenticeship-Code/Neural%20Networks) directory are contained all the attempts made to create a simple geological Convolutional Neural Network (CNN) wich classifies rock micrographies into 3 classes: Metamorphic, Sedimentary and Volcanic.
 The model has been coded and trained on Google [Colab](https://colab.research.google.com/),using the base resources provided by the platform.
 
 The final version is named [**kFoldFinale.ipnyb**](https://github.com/napolitanodst/Apprenticeship-log/blob/Apprenticeship-Code/Neural%20Networks/kFoldFinal.ipynb)
