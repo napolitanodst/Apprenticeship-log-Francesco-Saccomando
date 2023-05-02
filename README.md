@@ -9,4 +9,4 @@ In the [wiki](https://github.com/napolitanodst/Apprenticeship-log/wiki) section 
 ### Dataset
 The dataset used in the Neural Network is the [Photomicrograph dataset of rocks for petrology teaching in Nanjing University](https://www.scidb.cn/en/detail?dataSetId=732953783604084736), appropriately and manually resized to fit the simple model of Neural network used.
 ### Review
-A review containing all the details and the parameters used for the CNN can be found [here](https://www.overleaf.com/read/mnmcngkbfmrz).
+A review containing all the details and the parameters used for the CNN can be found [here](https://github.com/napolitanodst/Apprenticeship-log/blob/Apprenticeship-Code/KFold_Review.pdf).
