@@ -1,0 +1,116 @@
+---
+title: "Glioblastoma"
+output: html_notebook
+---
+
+```{r}
+#import geni d'interesse
+library(readxl)
+y <- read_excel("C:/Users/franc/Desktop/Glioblastoma/GSC-DGC.xlsx", sheet=4,col_names = FALSE) #FC
+x <- read_excel("C:/Users/franc/Desktop/Glioblastoma/GSC-DGC.xlsx", sheet=3,col_names = FALSE) #Geni
+genes <- c(x)
+geni <- unlist(genes)
+#import database
+library(gep2pep)
+GeneSetCollection <-importMSigDB.xml("C:/Users/franc/Desktop/msigdb_v6.1_files_to_download_locally/msigdb_v6.1_files_to_download_locally/msigdb_v6.1.xml", organism = "Homo Sapiens")
+
+```
+
+
+```{r}
+#Creazione Repository
+Repository <-createRepository("C:/Users/franc/Desktop/Repo", GeneSetCollection)
+```
+ 
+```{r}
+#Ranking
+library(base) 
+ranked<-rank(y,na.last = "keep", ties.method = "random")
+
+```
+  
+  
+```{r}
+#Preprocessing matrice
+matrix <- matrix(ranked)
+matrix[,1] <- rev(matrix[,1])
+rownames(matrix) <- geni
+colnames(matrix) <- "FC"
+```
+
+```{r}
+#Creazione PEPs
+buildPEPs(Repository, matrix)
+```
+
+```{r}
+#import PEP's di LINCS
+library (utils)
+Lincs <- ("C:/Users/franc/Desktop/Glioblastoma")
+untar("C:/Users/franc/Desktop/Glioblastoma/PEPs-LINCS.tar.gz", exdir = "Lincs")
+```
+
+```{r}
+#Collections nella repository
+getCollections(Repository)
+```
+
+
+
+```{r}
+#Estrazione Matrici Enrichment Score
+path <- ("C:/Users/franc/Desktop/Glioblastoma/Lincs/PEPs_LINCS111850_merged_MSigDBv6.1/")
+LINCS <-openRepository(path)
+a <-loadESmatrix(Repository, "c5_BP") #Geni
+b <-loadESmatrix(LINCS, "c5_BP") #Farmaci
+```
+
+
+```{r}
+#Ranking dei Geni
+a_rankato <- apply(-a,2,rank,na.last = "keep",ties.method = "random")
+```
+
+```{r}
+#Ranking delle pathways
+matricione <- apply(-b,2,rank,na.last = "keep",ties.method = "random")
+```
+
+
+```{r}
+#Calcolo distanze di Manhattan
+i=0
+distances_matrix <- matrix(NA, nrow = 1, ncol = ncol(matricione))
+for (i in 1:ncol(matricione)) {
+  m_combinata <- cbind(a_rankato,matricione[,i])
+  Combined <-t(m_combinata)
+  distanza <- dist(Combined, method = "manhattan")
+  distances_matrix[, i] <- as.numeric(distanza)
+}
+```
+
+
+```{r}
+#Funzione x check degli N/A in matrice rankata dei farmaci
+check_na_in_row <- function(row) {
+  sum(is.na(row))
+}
+
+result <- apply(matricione, MARGIN = 1, check_na_in_row)
+print(result)
+```
+  
+```{r}
+#Esportazione della matrice farmaci/distanza in excel
+library(xlsx)
+export <- (distances_matrix[1, ])
+df <- as.data.frame(export)
+write.xlsx(df, file = "distanze_export.xlsx", sheetName = "Foglio 1")
+
+distanze_export <- read.xlsx("C:/Users/franc/Desktop/Glioblastoma/distanze_export.xlsx", sheetIndex = 1)
+farmaci<- colnames(matricione)
+distanze_export$Colonna4 <- farmaci
+write.xlsx(distanze_export, file = "distanze_export.xlsx", sheetName = "Foglio 1")
+
+```
+
